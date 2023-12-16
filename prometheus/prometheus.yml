@@ -1,0 +1,11 @@
+scrape_configs:
+  - job_name: CustomPrometheusMetricsServlet
+    scrape_interval: 5s
+    metrics_path: /servlet
+    static_configs:
+      - targets: [ 'tomcat:8080' ]
+  - job_name: CustomPrometheusMetricsSpringBoot
+    scrape_interval: 5s
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: [ 'spring-boot:8080' ]

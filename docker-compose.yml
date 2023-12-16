@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  tomcat:
+    image: tomcat:9.0
+    volumes:
+      - ./servlet/target/servlet.war:/usr/local/tomcat/webapps/servlet.war
+  spring-boot:
+    image: openjdk:17
+    volumes:
+      - ./spring-boot/target/spring-boot.jar:/spring-boot.jar
+    command: [ 'java', '-jar', '/spring-boot.jar' ]
+    ports:
+      - "8080:8080"
+  prometheus:
+    image: quay.io/prometheus/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    links:
+      - "tomcat:tomcat"
+      - "spring-boot:spring-boot"
